@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тема 1. Поиск соответствия между графом и таблицей</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/prism.css">
+</head>
+<body>
+<div class="container">
+    <header class="header">
+        <h1><span class="emoji">🔗</span>Поиск соответствия между графом и таблицей</h1>
+        <p>Пример решения задания программированием</p>
+    </header>
+
+    <nav class="nav">
+        <ul>
+            <li><a href="#problem">📋 Условие задачи</a></li>
+            <li><a href="#principle">🔑 Принцип решения</a></li>
+            <li><a href="#code">💻 Код решения</a></li>
+            <li><a href="#explanation">💡 Пояснения</a></li>
+            <li><a href="#answer">✅ Ответ</a></li>
+        </ul>
+    </nav>
+
+    <main class="content">
+        <section id="problem" class="section">
+            <h2><span class="emoji">📋</span>Условие задачи</h2>
+
+            <p>На рисунке схема дорог изображена в виде <strong>графа</strong>, в таблице содержатся сведения о длине этих дорог в километрах.</p>
+
+            <p>Так как таблицу и схему рисовали независимо друг от друга, <strong>нумерация населённых пунктов в таблице никак не связана с буквенными обозначениями на графе</strong>. Известно, что дорога <span class="code">CD</span> длиннее дороги <span class="code">EF</span>.</p>
+
+            <p><strong>Определите сумму длин дорог АB и AG.</strong></p>
+
+            <div class="example-box">
+                <h4>📸 Визуальное представление:</h4>
+                <img src="../assets/images/img_type1_1.png" alt="Граф дорог" class="content-image" onerror="this.style.display='none';">
+                <img src="../assets/images/img_type1_2.png" alt="Таблица расстояний" class="content-image" onerror="this.style.display='none';">
+            </div>
+        </section>
+
+        <section id="principle" class="section">
+            <h2><span class="emoji">🔑</span>Принцип решения</h2>
+
+            <p>Для решения этой задачи используем <strong>перебор всех возможных соответствий</strong> между цифрами в таблице и буквами на графе.</p>
+
+            <div class="task-card">
+                <h4>Что такое таблица и граф?</h4>
+                <div class="solution">
+                    <p><strong>Таблица</strong> содержит расстояния между 8 пунктами (обозначены цифрами 1-8)</p>
+                    <p><strong>Граф</strong> показывает связи между 8 пунктами (обозначены буквами A-H) и дороги между ними</p>
+                    <p>Нам нужно найти, какой цифре соответствует какая буква</p>
+                </div>
+            </div>
+
+            <div class="warning">
+                <strong>⚠️ Ключевое ограничение:</strong> Дорога CD длиннее дороги EF — это ограничение поможет нам выбрать правильное соответствие!
+            </div>
+
+            <h3>Алгоритм решения:</h3>
+            <ul>
+                <li><strong>1. Перебор:</strong> Генерируем все возможные соответствия между цифрами и буквами (8! = 40,320 вариантов)</li>
+                <li><strong>2. Проверка:</strong> Для каждого соответствия заменяем цифры на буквы в таблице</li>
+                <li><strong>3. Сравнение:</strong> Проверяем, совпадает ли набор дорог из таблицы с графом</li>
+                <li><strong>4. Фильтрация:</strong> Выбираем вариант, где CD &gt; EF</li>
+                <li><strong>5. Вычисление:</strong> Находим сумму длин дорог AB и AG</li>
+            </ul>
+        </section>
+
+        <section id="code" class="section">
+            <h2><span class="emoji">💻</span>Код решения</h2>
+
+            <div class="task-card">
+                <h4>Python решение:</h4>
+                <div class="solution">
+                    <div class="pre-code">
+<pre class="line-numbers match-braces" data-download-link><code class="language-python">from itertools import permutations
+
+table = '12 17 21 27 28 34 35 37 43 47 53 57 67 68 71 72 73 74 75 76 78 82 86 87'
+graph = 'AB BA AC CA AD DA BC CB CD DC AE EA AF FA AG GA AH HA EF FE FG GF GH HG'
+
+for p in permutations('ABCDEFGH'):
+    new_graph = table
+    for i in range(1, 9):
+        new_graph = new_graph.replace(str(i), p[i - 1])
+    if set(new_graph.split()) == set(graph.split()):
+        print(p)</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <h3>Объяснение кода:</h3>
+            <ul>
+                <li><strong>table:</strong> Строка, где первая цифра - номер строки, вторая - номер столбца</li>
+                <li><strong>graph:</strong> Строка с дорогами на графе в виде пар букв (AB означает дорогу от A к B)</li>
+                <li><strong>permutations('ABCDEFGH'):</strong> Генерирует все возможные перестановки букв (каждой букве соответствует позиция от 1 до 8)</li>
+                <li><strong>replace(str(i), p[i - 1]):</strong> Заменяем цифру i на букву p[i-1]</li>
+                <li><strong>set(new_graph.split()) == set(graph.split()):</strong> Проверяем, совпадает ли набор дорог</li>
+            </ul>
+        </section>
+
+        <section id="explanation" class="section">
+            <h2><span class="emoji">💡</span>Пояснения результатов</h2>
+
+            <p>После запуска кода получаем несколько подходящих перестановок. Из них нужно выбрать те, которые удовлетворяют условию <strong>CD &gt; EF</strong>.</p>
+
+            <div class="success">
+                <h4>✅ Результаты перебора:</h4>
+                <div style="font-family: 'Courier New', monospace; background: #f5f5f5; padding: 15px; border-radius: 8px; margin: 10px 0;">
+                    <code>('E', 'F', 'C', 'B', 'D', 'H', 'A', 'G')</code><br>
+                    <code>('E', 'F', 'C', 'D', 'B', 'H', 'A', 'G')</code><br>
+                    <code>('H', 'G', 'C', 'B', 'D', 'E', 'A', 'F')</code><br>
+                    <code>('H', 'G', 'C', 'D', 'B', 'E', 'A', 'F')</code>
+                </div>
+            </div>
+
+            <h3>Таблица соответствия цифр буквам:</h3>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Позиция</th>
+                        <th>1</th>
+                        <th>2</th>
+                        <th>3</th>
+                        <th>4</th>
+                        <th>5</th>
+                        <th>6</th>
+                        <th>7</th>
+                        <th>8</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td><strong>Буква</strong></td>
+                        <td>E</td>
+                        <td>F</td>
+                        <td>C</td>
+                        <td>B</td>
+                        <td>D</td>
+                        <td>H</td>
+                        <td>A</td>
+                        <td>G</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="task-card">
+                <h4>Проверка условия CD &gt; EF:</h4>
+                <div class="solution">
+                    <p>В таблице:</p>
+                    <ul>
+                        <li><strong>CD</strong> соответствует паре (3, 5) = <strong>35</strong> км</li>
+                        <li><strong>EF</strong> соответствует паре (1, 2) = <strong>12</strong> км</li>
+                    </ul>
+                    <p>Проверка: <strong>35 &gt; 12</strong> ✅ Условие выполнено!</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="answer" class="section">
+            <h2><span class="emoji">✅</span>Итоговый ответ</h2>
+
+            <div class="success">
+                <h4>Найденные дороги:</h4>
+                <div class="solution">
+                    <p><strong>AB:</strong> Соответствует паре (7, 4) = <strong>74</strong> км</p>
+                    <p><strong>AG:</strong> Соответствует паре (7, 8) = <strong>78</strong> км</p>
+                </div>
+            </div>
+
+            <div class="example-box">
+                <h3>Вычисление суммы:</h3>
+                <p style="font-size: 1.2rem; text-align: center; padding: 20px; background: #e3f2fd; border-radius: 8px; margin: 15px 0;">
+                    <strong>AB + AG = 74 + 78 = <span style="color: #1976d2; font-size: 1.4rem;">152</span></strong>
+                </p>
+            </div>
+
+            <div class="warning">
+                <strong>📌 Ответ:</strong> <strong>152 км</strong>
+            </div>
+        </section>
+    </main>
+
+    <a href="#" id="backToTop" class="back-to-top" title="Вернуться в начало">↑</a>
+</div>
+
+<style>
+    .content-image {
+        max-width: 100%;
+        height: auto;
+        margin: 15px auto;
+        display: block;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .back-to-top {
+        display: none;
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        background: #3498db;
+        color: white;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        text-align: center;
+        line-height: 50px;
+        font-size: 24px;
+        text-decoration: none;
+        cursor: pointer;
+        z-index: 999;
+        transition: all 0.3s ease;
+    }
+
+    .back-to-top.visible {
+        display: block;
+    }
+
+    .back-to-top:hover {
+        background: #2980b9;
+        transform: translateY(-5px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    pre {
+        background: #f5f5f5;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 15px;
+        overflow-x: auto;
+        font-family: 'Courier New', monospace;
+        line-height: 1.5;
+    }
+
+    code {
+        font-family: 'Courier New', monospace;
+        background: #f0f0f0;
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-size: 0.95em;
+    }
+
+    pre code {
+        background: none;
+        padding: 0;
+        border-radius: 0;
+    }
+
+    .section ul {
+        margin-left: 20px;
+        margin-top: 10px;
+    }
+
+    .section ul li {
+        margin-bottom: 8px;
+        line-height: 1.7;
+    }
+</style>
+
+<script>
+    const backToTop = document.getElementById('backToTop');
+
+    window.addEventListener('scroll', function() {
+        if (window.scrollY > 300) {
+            backToTop.classList.add('visible');
+        } else {
+            backToTop.classList.remove('visible');
+        }
+    });
+
+    document.getElementById('backToTop').addEventListener('click', function(e) {
+        e.preventDefault();
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    });
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        });
+    });
+
+    window.addEventListener('scroll', function() {
+        const sections = document.querySelectorAll('.section');
+        const navLinks = document.querySelectorAll('.nav a');
+
+        let current = '';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            const sectionHeight = section.clientHeight;
+            if (pageYOffset >= sectionTop - 200) {
+                current = section.getAttribute('id');
+            }
+        });
+
+        navLinks.forEach(link => {
+            link.style.background = '';
+            if (link.getAttribute('href') === '#' + current) {
+                link.style.background = '#3498db';
+            }
+        });
+    });
+</script>
+<script src="../assets/js/prism.js"></script>
+</body>
+</html>
