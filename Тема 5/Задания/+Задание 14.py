@@ -2,7 +2,7 @@ n = []
 for i in range(1, 150):
     r = bin(i)[2:]
     #11. 10. 1. 0
-    r = r + str(bin(i % 4)[2:])
+    r = r + bin(i % 4)[2:]
     print(int(r, 2), i)
     n.append(int(r, 2))
 print(sorted(n))

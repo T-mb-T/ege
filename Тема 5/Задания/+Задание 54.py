@@ -3,8 +3,10 @@ x = 0
 for i in range(249999995, 894728062):
     N = bin(i)[2:]
     N = N + bin(i % 4)[2:]
+
     if int(N ,2) >= 1000000000 and int(N, 2) <= 1789456123:
         x += 1
+
 print(x)
 
 
