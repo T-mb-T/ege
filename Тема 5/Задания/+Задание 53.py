@@ -1,4 +1,4 @@
-from numpy import  base_repr
+from numpy import base_repr
 
 for i in range(1, 100):
     N = str(base_repr(i, 3))
