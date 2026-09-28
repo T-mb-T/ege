@@ -1,5 +1,6 @@
 # Решение
 from turtle import *
+'''
 tracer(0)
 koef = 15
 for _ in range(7):
@@ -25,11 +26,12 @@ for x in range(-30, 30):
 goto(0, 0)
 exitonclick()
 
+'''
 
 
 
 
-answer = 294
+answer = 96708
 
 #
 
