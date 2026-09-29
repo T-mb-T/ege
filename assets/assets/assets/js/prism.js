@@ -5090,7 +5090,6 @@ Prism.languages.objc = Prism.languages.objectivec;
 
 // Based on Free Pascal
 
-
 Prism.languages.pascal = {
 	'directive': {
 		pattern: /\{\$[\s\S]*?\}/,
