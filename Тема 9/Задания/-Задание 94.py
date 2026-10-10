@@ -6,7 +6,7 @@
 
 
 
-answer = 5192
+answer = 4479
 
 #
 
