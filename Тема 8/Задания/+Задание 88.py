@@ -1,7 +1,7 @@
 # Решение
 from itertools import permutations
 from numpy import base_repr
-'''
+
 io = "0123456789ABCDE"
 print(base_repr(855000000, 15))
 x = set()
@@ -12,7 +12,7 @@ for p in permutations(io, 8):
     if int(p, 15) >= 855000000:
         break
 print(len(x))
-'''
+
 
 
 answer = 69189120
