@@ -94,7 +94,7 @@
 
                 <h4>Решение (прямая рекурсия):</h4>
 
-                <h5 style="color: #495057; margin-top: 25px;">💡 Способ 1: Рекурсия с if/elif</h5>
+                <h5 style="color: #495057; margin-top: 25px;">💡 Рекурсия с if/elif:</h5>
                 <div class="pre-code">
 <pre class="line-numbers match-braces" data-download-link><code class="language-python">def f(n):
     if n == 0:
@@ -103,16 +103,6 @@
         return f(n - 1) + 1
     elif n % 3 < 2 and n > 0:
         return f((n - n % 3) // 3)
-
-for i in range(1000):
-    if f(i) == 6:
-        print(i)  # Результат: 728
-        break</code></pre>
-                </div>
-                <h5 style="color: #495057; margin-top: 25px;">💡 Способ 2: Однострочная рекурсия</h5>
-                <div class="pre-code">
-<pre class="line-numbers match-braces" data-download-link><code class="language-python">def f(n):
-    return 0 if n == 0 else (f(n - 1) + 1 if n % 3 == 2 else f((n - n % 3) // 3))
 
 for i in range(1000):
     if f(i) == 6:
@@ -175,41 +165,7 @@ for i in range(5000):
                 </div>
             </div>
 
-            <h3>🛠️ Метод 2: Итеративное решение (без рекурсии)</h3>
-
-            <p>
-                Если увеличение лимита не помогло, или задача требует перебора очень большого диапазона,
-                рекурсию можно заменить <strong>циклом с ручным стеком</strong> или переосмыслить алгоритм.
-            </p>
-
-            <div class="task-card">
-                <h5 style="color: #495057; margin-top: 0;">💡 Итеративная реализация с ручным стеком:</h5>
-                <div class="pre-code">
-<pre class="line-numbers match-braces" data-download-link><code class="language-python">def f_iterative(n):
-    stack = []
-    additions = 0
-
-    while n != 0:
-        if n % 3 == 2:
-            additions += 1
-            n -= 1
-        else:
-            n = (n - n % 3) // 3
-
-    return additions
-
-for i in range(5000):
-    if f_iterative(i) == 6:
-        print(i)  # Результат: 728
-        break</code></pre>
-                </div>
-                <div class="success" style="margin-top: 15px;">
-                    <strong>✅ Преимущество:</strong> Не зависит от лимита рекурсии, работает при любой глубине.
-                    Идеально для больших диапазонов.
-                </div>
-            </div>
-
-            <h3>🛠️ Метод 3: Декоратор @lru_cache (встроенная мемоизация)</h3>
+            <h3>🛠️ Метод 2: Декоратор @lru_cache (встроенная мемоизация)</h3>
 
             <p>
                 Python предоставляет встроенный декоратор <span class="code">@functools.lru_cache</span>,
@@ -258,12 +214,6 @@ for i in range(5000):
                         <td>Первый шаг при RecursionError</td>
                     </tr>
                     <tr>
-                        <td><strong>Итеративный алгоритм</strong></td>
-                        <td>Средняя (нужно переосмыслить логику)</td>
-                        <td>Нет ограничений</td>
-                        <td>Когда лимит не помогает</td>
-                    </tr>
-                    <tr>
                         <td><strong>@lru_cache</strong></td>
                         <td>Минимальная (1 декоратор)</td>
                         <td>Требует hashable аргументов</td>
@@ -275,11 +225,11 @@ for i in range(5000):
         </section>
 
         <section id="memoization" class="section">
-            <h2><span class="emoji">⚡</span>Решение через список (мемоизация рекурсии)</h2>
+            <h2><span class="emoji">⚡</span>Мемоизация рекурсии</h2>
 
             <p>
                 <strong>Мемоизация</strong> — это техника оптимизации, при которой результаты уже вычисленных вызовов
-                функции сохраняются в словаре или списке. При повторном вызове с теми же аргументами
+                функции сохраняются в словаре. При повторном вызове с теми же аргументами
                 берётся готовый результат, а не пересчитывается заново.
             </p>
 
@@ -299,7 +249,7 @@ for i in range(5000):
 
                 <h4>Решение:</h4>
 
-                <h5 style="color: #495057; margin-top: 25px;">💡 Способ 1: Мемоизация через словарь (dict)</h5>
+                <h5 style="color: #495057; margin-top: 25px;">💡 Способ 1: Мемоизация через словарь (dict):</h5>
                 <div class="pre-code">
 <pre class="line-numbers match-braces" data-download-link><code class="language-python">cache = {}  # словарь для хранения вычисленных значений
 
@@ -323,31 +273,7 @@ for i in range(5000):
         break</code></pre>
                 </div>
 
-                <h5 style="color: #495057; margin-top: 25px;">💡 Способ 2: Мемоизация через список</h5>
-                <div class="pre-code">
-<pre class="line-numbers match-braces" data-download-link><code class="language-python">LIMIT = 5000
-memo = [-1] * LIMIT   # список, -1 означает "не вычислено"
-
-def f(n):
-    if memo[n] != -1:   # уже вычислено
-        return memo[n]
-
-    if n == 0:
-        memo[n] = 0
-    elif n % 3 == 2:
-        memo[n] = f(n - 1) + 1
-    else:
-        memo[n] = f((n - n % 3) // 3)
-
-    return memo[n]
-
-for i in range(LIMIT):
-    if f(i) == 6:
-        print(i)  # Результат: 728
-        break</code></pre>
-                </div>
-
-                <h5 style="color: #495057; margin-top: 25px;">💡 Способ 3: Итеративное заполнение таблицы (динамическое программирование)</h5>
+                <h5 style="color: #495057; margin-top: 25px;">💡 Способ 2: Итеративное заполнение таблицы (динамическое программирование)</h5>
                 <div class="pre-code">
 <pre class="line-numbers match-braces" data-download-link><code class="language-python">LIMIT = 5000
 dp = [0] * LIMIT   # dp[n] = F(n)
@@ -405,13 +331,6 @@ for i in range(LIMIT):
                         <td>Повторяющиеся вызовы</td>
                     </tr>
                     <tr>
-                        <td><strong>Рекурсия + список-кэш</strong></td>
-                        <td style="color: #f39c12;">Маловероятен</td>
-                        <td>Быстрая</td>
-                        <td>Средняя</td>
-                        <td>Числовые аргументы</td>
-                    </tr>
-                    <tr>
                         <td><strong>Итеративное ДП (таблица)</strong></td>
                         <td style="color: #27ae60;">Невозможен</td>
                         <td>Самая быстрая</td>
@@ -443,7 +362,7 @@ for i in range(LIMIT):
         <ul style="text-align: left; display: inline-block;">
             <li>Прямая рекурсия — самый читаемый код</li>
             <li><span class="code" style="color: #aed6f1;">sys.setrecursionlimit()</span> — первая помощь при RecursionError</li>
-            <li>Мемоизация через список/словарь ускоряет повторные вызовы</li>
+            <li>Мемоизация через словарь ускоряет повторные вызовы</li>
             <li>Итеративное ДП — самое надёжное и быстрое решение</li>
         </ul>
     </footer>
