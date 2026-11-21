@@ -8,13 +8,12 @@ count = 0
 for i in range(1, LIMIT - 1):
     if f[i] > f[i + 1]:
         count += 1
-print(f)
 print(count, 777181225 // 10)
 
 
 
 
-answer = 77718122
+answer = 77718121
 
 #
 
