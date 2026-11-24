@@ -1,5 +1,5 @@
 # Решение
-nums = list(map(int, open("Задание 1701.txt").readlines()))
+nums = list(map(int, open("+Задание 1701.txt").readlines()))
 minnum = -9999
 for num in nums:
     if num < 0 and abs(num) % 9 == 0 and len(str(num)) == 5 and num > minnum:
@@ -8,7 +8,7 @@ for num in nums:
 count = 0
 m = 100000000
 for i in range(len(nums) - 1):
-    if ((nums[i] < 0 and nums[i + 1] >= 0) or (nums[i] >= 0 and nums[i + 1] < 0)) and nums[i] + nums[i + 1] > minnum:
+    if ((nums[i] < 0) != (nums[i + 1] < 0)) and nums[i] + nums[i + 1] > minnum:
         count += 1
         m1 = nums[i] ** 2 + nums[i + 1] ** 2
         if m1 < m:
